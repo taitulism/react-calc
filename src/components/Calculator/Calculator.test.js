@@ -49,3 +49,18 @@ it('displays a multi-digit number as you click', () => {
 	
 	expect(display.text()).toEqual('70');
 });
+
+it('ignores zero as first digit', () => {
+	const calc = mount(<Calculator />);
+
+	const sevenBtn = calc.find('.Button.digit').first();
+	const zeroBtn  = calc.find('.Button.digit').last();
+	
+	zeroBtn.simulate('click');  // 0
+	sevenBtn.simulate('click'); // 7
+	zeroBtn.simulate('click');  // 0
+	
+	const display = calc.find('.Display').at(0);
+	
+	expect(display.text()).toEqual('70');
+});

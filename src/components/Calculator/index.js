@@ -17,6 +17,10 @@ class Calculator extends Component {
     handleNumberInput (num) {
         const {firstNum} = this.state;
 
+        if (num === '0' && !firstNum) {
+            return;
+        }
+
         this.setState({firstNum: firstNum + num});
     }
 
