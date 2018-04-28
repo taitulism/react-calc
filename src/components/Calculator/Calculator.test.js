@@ -32,3 +32,20 @@ it('displays the digit you click', () => {
 	
 	expect(display.text()).toEqual('7');
 });
+
+it('displays a multi-digit number as you click', () => {
+	const calc = mount(<Calculator />);
+	
+	// first button (top left) is the digit 7
+	const sevenBtn = calc.find('.Button.digit').first();
+	
+	// last button is the digit 0
+	const zeroBtn = calc.find('.Button.digit').last();
+	
+	sevenBtn.simulate('click');
+	zeroBtn.simulate('click');
+	
+	const display = calc.find('.Display').at(0);
+	
+	expect(display.text()).toEqual('70');
+});

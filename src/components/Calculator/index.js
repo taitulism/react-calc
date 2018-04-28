@@ -8,18 +8,20 @@ class Calculator extends Component {
         super(props);
 
         this.state = {
-            display: '0'
+            firstNum: '',
         };
 
         this.handleNumberInput = this.handleNumberInput.bind(this);
     }
 
     handleNumberInput (num) {
-        this.setState({display: num})
+        const {firstNum} = this.state;
+
+        this.setState({firstNum: firstNum + num});
     }
 
     render() {
-        const display = this.state.display;
+        const display = this.state.firstNum || '0';
 
         return (
             <div className="Calculator">
