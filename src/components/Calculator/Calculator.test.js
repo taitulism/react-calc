@@ -12,3 +12,10 @@ it('has a display', () => {
 
 	expect(Display.length).toEqual(1);
 });
+
+it('has a numpad section with 10 buttons (0-9)', () => {
+	const calc = render(<Calculator />);
+	const Digits = calc.find('.Button.digit');
+
+	expect(Digits.length).toEqual(10);
+});
