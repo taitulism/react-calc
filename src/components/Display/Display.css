@@ -1,0 +1,8 @@
+.Display {
+    border-radius: 10px;
+    background-color: white;
+    text-align: right;
+    border: 2px solid #dfdfdf;
+    padding: 10px;
+    font-size: 1.5em;
+}
