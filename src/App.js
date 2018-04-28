@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Calculator from './components/Calculator';
 import './App.css';
 
 class App extends Component {
@@ -8,6 +9,9 @@ class App extends Component {
 				<header className="App-header">
 					<h1 className="App-title">Calculator</h1>
 				</header>
+				<div className="main">
+					<Calculator />
+				</div>
 			</div>
 		);
 	}

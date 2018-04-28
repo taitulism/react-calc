@@ -11,3 +11,8 @@
 .App-title {
   font-size: 3em;
 }
+
+.App .main {
+  display: flex;
+  justify-content: center;
+}

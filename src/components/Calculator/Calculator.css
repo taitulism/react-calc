@@ -1,0 +1,8 @@
+.Calculator {
+    border: 1px solid gray;
+    border-radius: 0 0 10px 10px;
+    width: 50%;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+}
