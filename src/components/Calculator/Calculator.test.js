@@ -73,7 +73,7 @@ function runNTimes (times, fn) {
 
 it('limits the number to 10 digits', () => {
 	const calc = mount(<Calculator />);
-
+	
 	const sevenBtn = calc.find('.Button.digit').first();
 	
 	runNTimes(12, () => {
@@ -84,4 +84,21 @@ it('limits the number to 10 digits', () => {
 	const display = calc.find('.Display').at(0);
 	
 	expect(display.text().length).toEqual(10);
+});
+
+it('supports keyboard numpad usage', () => {
+	const calc = mount(<Calculator />);
+
+	calc.simulate('keyPress', { 
+		key: '2',
+		which: 50,
+	});
+	calc.simulate('keyPress', { 
+		key: '8',
+		which: 56,
+	});
+
+	const display = calc.find('.Display').at(0);
+	
+	expect(display.text()).toEqual('28');
 });

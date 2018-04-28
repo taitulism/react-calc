@@ -12,6 +12,7 @@ class Calculator extends Component {
         };
 
         this.handleNumberInput = this.handleNumberInput.bind(this);
+        this.handleKeyPress = this.handleKeyPress.bind(this);
     }
 
     handleNumberInput (num) {
@@ -28,11 +29,21 @@ class Calculator extends Component {
         this.setState({firstNum: firstNum + num});
     }
 
+    handleKeyPress (ev) {
+        const key = ev.key;
+
+        if (key < 0 || key > 9) {
+            return;
+        }
+
+        this.handleNumberInput(key);
+    }
+
     render() {
         const display = this.state.firstNum || '0';
 
         return (
-            <div className="Calculator">
+            <div className="Calculator" onKeyPress={this.handleKeyPress}>
                 <Display value={display}/>
 
                 <div className="calc-section numbers-container">
