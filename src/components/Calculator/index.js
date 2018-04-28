@@ -3,6 +3,8 @@ import Display from '../Display';
 import Button from '../Button';
 import './Calculator.css';
 
+function noop () {}
+
 class Calculator extends Component {
     render() {
         return (
@@ -10,22 +12,22 @@ class Calculator extends Component {
                 <Display />
                 <div className="calc-section numbers-container">
                     <div className="numbers-row">
-                        <Button className="digit" text="7" />
-                        <Button className="digit" text="8" />
-                        <Button className="digit" text="9" />
+                        <Button className="digit" text="7" clickHandler={noop} />
+                        <Button className="digit" text="8" clickHandler={noop} />
+                        <Button className="digit" text="9" clickHandler={noop} />
                     </div>
                     <div className="numbers-row">
-                        <Button className="digit" text="4" />
-                        <Button className="digit" text="5" />
-                        <Button className="digit" text="6" />
+                        <Button className="digit" text="4" clickHandler={noop} />
+                        <Button className="digit" text="5" clickHandler={noop} />
+                        <Button className="digit" text="6" clickHandler={noop} />
                     </div>
                     <div className="numbers-row">
-                        <Button className="digit" text="1" />
-                        <Button className="digit" text="2" />
-                        <Button className="digit" text="3" />
+                        <Button className="digit" text="1" clickHandler={noop} />
+                        <Button className="digit" text="2" clickHandler={noop} />
+                        <Button className="digit" text="3" clickHandler={noop} />
                     </div>
                     <div className="numbers-row">
-                        <Button className="digit" text="0" />
+                        <Button className="digit" text="0" clickHandler={noop} />
                     </div>
                 </div>
             </div>
