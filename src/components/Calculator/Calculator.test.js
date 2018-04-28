@@ -64,3 +64,24 @@ it('ignores zero as first digit', () => {
 	
 	expect(display.text()).toEqual('70');
 });
+
+function runNTimes (times, fn) {
+	for (let index = 0; index < times; index++) {
+		fn();	
+	}
+}
+
+it('limits the number to 10 digits', () => {
+	const calc = mount(<Calculator />);
+
+	const sevenBtn = calc.find('.Button.digit').first();
+	
+	runNTimes(12, () => {
+		// runs 12 times
+		sevenBtn.simulate('click');
+	});
+	
+	const display = calc.find('.Display').at(0);
+	
+	expect(display.text().length).toEqual(10);
+});

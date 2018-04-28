@@ -5,4 +5,7 @@
     border: 2px solid #dfdfdf;
     padding: 10px;
     font-size: 1.5em;
+    text-overflow: ellipsis;
+    overflow: auto;
+    white-space: nowrap;
 }

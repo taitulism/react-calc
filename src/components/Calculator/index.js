@@ -20,6 +20,10 @@ class Calculator extends Component {
         if (num === '0' && !firstNum) {
             return;
         }
+        
+        if (firstNum.length >= Calculator.maxDigits) {
+            return;
+        }
 
         this.setState({firstNum: firstNum + num});
     }
@@ -55,5 +59,7 @@ class Calculator extends Component {
         );
     }
 }
+
+Calculator.maxDigits = 10;
 
 export default Calculator;
