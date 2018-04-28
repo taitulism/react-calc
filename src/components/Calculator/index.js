@@ -3,31 +3,46 @@ import Display from '../Display';
 import Button from '../Button';
 import './Calculator.css';
 
-function noop () {}
-
 class Calculator extends Component {
+    constructor (props) {
+        super(props);
+
+        this.state = {
+            display: '0'
+        };
+
+        this.handleNumberInput = this.handleNumberInput.bind(this);
+    }
+
+    handleNumberInput (num) {
+        this.setState({display: num})
+    }
+
     render() {
+        const display = this.state.display;
+
         return (
             <div className="Calculator">
-                <Display />
+                <Display value={display}/>
+
                 <div className="calc-section numbers-container">
                     <div className="numbers-row">
-                        <Button className="digit" text="7" clickHandler={noop} />
-                        <Button className="digit" text="8" clickHandler={noop} />
-                        <Button className="digit" text="9" clickHandler={noop} />
+                        <Button className="digit" text="7" clickHandler={this.handleNumberInput} />
+                        <Button className="digit" text="8" clickHandler={this.handleNumberInput} />
+                        <Button className="digit" text="9" clickHandler={this.handleNumberInput} />
                     </div>
                     <div className="numbers-row">
-                        <Button className="digit" text="4" clickHandler={noop} />
-                        <Button className="digit" text="5" clickHandler={noop} />
-                        <Button className="digit" text="6" clickHandler={noop} />
+                        <Button className="digit" text="4" clickHandler={this.handleNumberInput} />
+                        <Button className="digit" text="5" clickHandler={this.handleNumberInput} />
+                        <Button className="digit" text="6" clickHandler={this.handleNumberInput} />
                     </div>
                     <div className="numbers-row">
-                        <Button className="digit" text="1" clickHandler={noop} />
-                        <Button className="digit" text="2" clickHandler={noop} />
-                        <Button className="digit" text="3" clickHandler={noop} />
+                        <Button className="digit" text="1" clickHandler={this.handleNumberInput} />
+                        <Button className="digit" text="2" clickHandler={this.handleNumberInput} />
+                        <Button className="digit" text="3" clickHandler={this.handleNumberInput} />
                     </div>
                     <div className="numbers-row">
-                        <Button className="digit" text="0" clickHandler={noop} />
+                        <Button className="digit" text="0" clickHandler={this.handleNumberInput} />
                     </div>
                 </div>
             </div>
