@@ -16,6 +16,7 @@ class Calculator extends Component {
         this.handleNumberInput = this.handleNumberInput.bind(this);
         this.handleKeyPress    = this.handleKeyPress.bind(this);
         this.handleOperation   = this.handleOperation.bind(this);
+        this.calculate         = this.calculate.bind(this);
     }
 
     handleNumberInput (num) {
@@ -65,6 +66,10 @@ class Calculator extends Component {
         });
     }
 
+    calculate () {
+
+    }
+
     getDisplayValue () {
         const {firstNum, operation, secondNum} = this.state;
         const display = firstNum + operation + secondNum;
@@ -103,11 +108,16 @@ class Calculator extends Component {
                         <Button className="digit" text="0" clickHandler={this.handleNumberInput} />
                     </div>
                 </div>
+
                 <div className="calc-section">
                     <Button className="operation" text="+" clickHandler={this.handleOperation}/>
                     <Button className="operation" text="-" clickHandler={this.handleOperation}/>
                     <Button className="operation" text="*" clickHandler={this.handleOperation}/>
                     <Button className="operation" text="/" clickHandler={this.handleOperation}/>
+                </div>
+
+                <div className="calc-section">
+                    <Button className="calculate" text="=" clickHandler={this.calculate}/>
                 </div>
             </div>
         );

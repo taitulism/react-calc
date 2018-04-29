@@ -133,3 +133,11 @@ it('displays the full calculation', () => {
 	
 	expect(display.text()).toEqual('24+35');
 });
+
+it('has an "equal" button (=)', () => {
+	const calc = render(<Calculator />);
+
+	const equalBtn = calc.find('.Button.calculate');
+
+	expect(equalBtn.length).toEqual(1);
+});
