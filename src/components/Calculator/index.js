@@ -9,38 +9,75 @@ class Calculator extends Component {
 
         this.state = {
             firstNum: '',
+            operation: '',
+            secondNum: '',
         };
 
         this.handleNumberInput = this.handleNumberInput.bind(this);
-        this.handleKeyPress = this.handleKeyPress.bind(this);
+        this.handleKeyPress    = this.handleKeyPress.bind(this);
+        this.handleOperation   = this.handleOperation.bind(this);
     }
 
     handleNumberInput (num) {
-        const {firstNum} = this.state;
+        const {firstNum, operation, secondNum} = this.state;
 
-        if (num === '0' && !firstNum) {
+        const currentNumber = (!operation) ? firstNum : secondNum;
+
+        if (num === '0' && !currentNumber) {
             return;
         }
         
-        if (firstNum.length >= Calculator.maxDigits) {
+        if (currentNumber.length >= Calculator.MAX_DIGITS) {
             return;
         }
 
-        this.setState({firstNum: firstNum + num});
+        const newNumber = currentNumber + num;
+
+        if (!this.state.operation) {
+            this.setState({
+                firstNum: newNumber,
+            });
+        }
+        else {
+            this.setState({
+                secondNum: newNumber,
+            });
+        }
     }
 
     handleKeyPress (ev) {
         const key = ev.key;
-
-        if (key < 0 || key > 9) {
+        
+        if (Calculator.BASIC_OPS.includes(key)) {
+            this.handleOperation(key);
             return;
         }
 
+        if (isNotANumber(key) || (key < 0 || key > 9)) {
+            return;
+        }
         this.handleNumberInput(key);
     }
 
+    handleOperation (op) {
+        this.setState({
+            operation: op,
+        });
+    }
+
+    getDisplayValue () {
+        const {firstNum, operation, secondNum} = this.state;
+        const display = firstNum + operation + secondNum;
+
+        if (display === '') {
+            return '0';
+        }
+
+        return display;
+    }
+
     render() {
-        const display = this.state.firstNum || '0';
+        const display = this.getDisplayValue();
 
         return (
             <div className="Calculator" onKeyPress={this.handleKeyPress}>
@@ -66,11 +103,24 @@ class Calculator extends Component {
                         <Button className="digit" text="0" clickHandler={this.handleNumberInput} />
                     </div>
                 </div>
+                <div className="calc-section">
+                    <Button className="operation" text="+" clickHandler={this.handleOperation}/>
+                    <Button className="operation" text="-" clickHandler={this.handleOperation}/>
+                    <Button className="operation" text="*" clickHandler={this.handleOperation}/>
+                    <Button className="operation" text="/" clickHandler={this.handleOperation}/>
+                </div>
             </div>
         );
     }
 }
 
-Calculator.maxDigits = 10;
+Calculator.MAX_DIGITS = 10;
+Calculator.BASIC_OPS  = ['+', '-', '*', '/'];
+
+function isNotANumber (str) {
+    const num = parseInt(str, 10);
+
+    return Number.isNaN(num);    
+}
 
 export default Calculator;

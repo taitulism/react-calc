@@ -102,3 +102,34 @@ it('supports keyboard numpad usage', () => {
 	
 	expect(display.text()).toEqual('28');
 });
+
+it('has 4 basic math operations (+, -, *, /)', () => {
+	const calc = mount(<Calculator />);
+	const ops = calc.find('.Button.operation');
+
+	expect(ops.length).toEqual(4);
+
+	const plusBtn   = calc.find('.Button.operation').at(0);
+	const minusBtn  = calc.find('.Button.operation').at(1);
+	const multiBtn  = calc.find('.Button.operation').at(2);
+	const divideBtn = calc.find('.Button.operation').at(3);
+
+	expect(plusBtn.text()).toEqual('+');
+	expect(minusBtn.text()).toEqual('-');
+	expect(multiBtn.text()).toEqual('*');
+	expect(divideBtn.text()).toEqual('/');
+});
+
+it('displays the full calculation', () => {
+	const calc = mount(<Calculator />);
+	
+	calc.setState({
+		firstNum: '24',
+		operation: '+',
+		secondNum: '35',
+	});
+	
+	const display = calc.find('.Display').at(0);
+	
+	expect(display.text()).toEqual('24+35');
+});
