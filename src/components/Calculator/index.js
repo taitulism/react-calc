@@ -72,8 +72,9 @@ class Calculator extends Component {
 
     calculate () {
         const {firstNum, operation, secondNum} = this.state;
+        const opName = Calculator.OP_API_NAME[operation];
         
-        return fetch(`${Calculator.SERVER_URL}/${operation}/${firstNum}/${secondNum}`).then((response) => {
+        return fetch(`${Calculator.SERVER_URL}/${opName}/${firstNum}/${secondNum}`).then((response) => {
             if (response.ok) {
                 return response.text();
             } 
@@ -116,21 +117,17 @@ class Calculator extends Component {
 
         return display;
     }
-
-    renderBasicMathOps () {
-        const mathOps = Calculator.BASIC_OPS;
-        
-        return mathOps.map((op, i) => {
-            return <Button key={i} className="operation" text={op.sign} clickHandler={this.handleOperation} />
-        });
-    }
-
-    renderExtraMathOps () {
-        const mathOps = this.props.mathOps;
-        
+    
+    renderMathOps (mathOps) {
         if (!mathOps) return;
 
         return mathOps.map((op, i) => {
+            // add operation to the "available operations" array (used by the keyPress handler)
+            Calculator.AVAILABLE_OPS.push(op.sign);
+            
+            // store the operation to easily get its name (by sign) for the URL
+            Calculator.OP_API_NAME[op.sign] = op.name;
+
             return <Button key={i} className="operation" text={op.sign} clickHandler={this.handleOperation} />
         });
     }
@@ -165,10 +162,10 @@ class Calculator extends Component {
 
                 <div className="calc-section ops-container">
                     <div className="ops-row">
-                        {this.renderBasicMathOps()}
+                        {this.renderMathOps(Calculator.BASIC_OPS)}
                     </div>
                     <div className="ops-row">
-                        {this.renderExtraMathOps()}
+                        {this.renderMathOps(this.props.mathOps)}
                     </div>
                 </div>
 
@@ -180,9 +177,10 @@ class Calculator extends Component {
     }
 }
 
+Calculator.AVAILABLE_OPS = [];
+Calculator.OP_API_NAME = {};
 Calculator.MAX_DIGITS = 10;
 Calculator.SERVER_URL = 'http://localhost:3001';
-Calculator.AVAILABLE_OPS = ['+', '-', '*', '/'];
 Calculator.BASIC_OPS  = [{
         name: 'add',
         sign: '+',
