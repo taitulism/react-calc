@@ -66,7 +66,7 @@ class Calculator extends Component {
 
     handleOperation (op) {
         if (!this.state.firstNum) return;
-        
+
         this.setState({
             operation: op,
         });
@@ -196,7 +196,7 @@ Calculator.BASIC_OPS  = [{
         name: 'multiply',
         sign: '*',
     },{
-        name: 'devide',
+        name: 'divide',
         sign: '/',
 }];
 
