@@ -141,7 +141,7 @@ class Calculator extends Component {
         const display = this.getDisplayValue();
 
         return (
-            <div className="Calculator" onKeyPress={this.handleKeyPress}>
+            <div className="Calculator" onKeyPress={this.handleKeyPress} autoFocus>
                 <Display value={display}/>
 
                 <div className="calc-section numbers-container">
