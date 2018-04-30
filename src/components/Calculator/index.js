@@ -53,7 +53,7 @@ class Calculator extends Component {
     handleKeyPress (ev) {
         const key = ev.key;
         
-        if (Calculator.BASIC_OPS.includes(key)) {
+        if (Calculator.AVAILABLE_OPS.includes(key)) {
             this.handleOperation(key);
             return;
         }
@@ -117,6 +117,14 @@ class Calculator extends Component {
         return display;
     }
 
+    renderBasicMathOps () {
+        const mathOps = Calculator.BASIC_OPS;
+        
+        return mathOps.map((op, i) => {
+            return <Button key={i} className="operation" text={op.sign} clickHandler={this.handleOperation} />
+        });
+    }
+
     renderExtraMathOps () {
         const mathOps = this.props.mathOps;
         
@@ -157,10 +165,9 @@ class Calculator extends Component {
 
                 <div className="calc-section ops-container">
                     <div className="ops-row">
-                        <Button className="operation" text="+" clickHandler={this.handleOperation}/>
-                        <Button className="operation" text="-" clickHandler={this.handleOperation}/>
-                        <Button className="operation" text="*" clickHandler={this.handleOperation}/>
-                        <Button className="operation" text="/" clickHandler={this.handleOperation}/>
+                        {this.renderBasicMathOps()}
+                    </div>
+                    <div className="ops-row">
                         {this.renderExtraMathOps()}
                     </div>
                 </div>
@@ -174,8 +181,21 @@ class Calculator extends Component {
 }
 
 Calculator.MAX_DIGITS = 10;
-Calculator.BASIC_OPS  = ['+', '-', '*', '/'];
 Calculator.SERVER_URL = 'http://localhost:3001';
+Calculator.AVAILABLE_OPS = ['+', '-', '*', '/'];
+Calculator.BASIC_OPS  = [{
+        name: 'add',
+        sign: '+',
+    },{
+        name: 'substract',
+        sign: '-',
+    },{
+        name: 'multiply',
+        sign: '*',
+    },{
+        name: 'devide',
+        sign: '/',
+}];
 
 Calculator.propTypes = {
     mathOps: PropTypes.PropTypes.arrayOf(PropTypes.shape({
