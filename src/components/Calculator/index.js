@@ -52,6 +52,11 @@ class Calculator extends Component {
 
     handleKeyPress (ev) {
         const key = ev.key;
+
+        if (key === 'Enter' || ev.which === 13) {
+            this.calculate();
+            return;
+        }
         
         if (Calculator.AVAILABLE_OPS.includes(key)) {
             this.handleOperation(key);
