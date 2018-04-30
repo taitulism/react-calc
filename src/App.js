@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Calculator from './components/Calculator';
+import mathOps from './math-operations';
 import './App.css';
 
 class App extends Component {
@@ -10,7 +11,7 @@ class App extends Component {
 					<h1 className="App-title">Calculator</h1>
 				</header>
 				<div className="main">
-					<Calculator />
+					<Calculator mathOps={mathOps} />
 				</div>
 			</div>
 		);

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Display from '../Display';
 import Button from '../Button';
@@ -83,7 +84,7 @@ class Calculator extends Component {
                     secondNum: '',
                     result: 'ERR'
                 });
-                
+
                 console.log(response.statusText);
             }
         })
@@ -116,6 +117,16 @@ class Calculator extends Component {
         return display;
     }
 
+    renderExtraMathOps () {
+        const mathOps = this.props.mathOps;
+        
+        if (!mathOps) return;
+
+        return mathOps.map((op, i) => {
+            return <Button key={i} className="operation" text={op.sign} clickHandler={this.handleOperation} />
+        });
+    }
+
     render() {
         const display = this.getDisplayValue();
 
@@ -144,11 +155,14 @@ class Calculator extends Component {
                     </div>
                 </div>
 
-                <div className="calc-section">
-                    <Button className="operation" text="+" clickHandler={this.handleOperation}/>
-                    <Button className="operation" text="-" clickHandler={this.handleOperation}/>
-                    <Button className="operation" text="*" clickHandler={this.handleOperation}/>
-                    <Button className="operation" text="/" clickHandler={this.handleOperation}/>
+                <div className="calc-section ops-container">
+                    <div className="ops-row">
+                        <Button className="operation" text="+" clickHandler={this.handleOperation}/>
+                        <Button className="operation" text="-" clickHandler={this.handleOperation}/>
+                        <Button className="operation" text="*" clickHandler={this.handleOperation}/>
+                        <Button className="operation" text="/" clickHandler={this.handleOperation}/>
+                        {this.renderExtraMathOps()}
+                    </div>
                 </div>
 
                 <div className="calc-section">
@@ -162,6 +176,13 @@ class Calculator extends Component {
 Calculator.MAX_DIGITS = 10;
 Calculator.BASIC_OPS  = ['+', '-', '*', '/'];
 Calculator.SERVER_URL = 'http://localhost:3001';
+
+Calculator.propTypes = {
+    mathOps: PropTypes.PropTypes.arrayOf(PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        sign: PropTypes.string.isRequired,
+    })),  
+};
 
 function isNotANumber (str) {
     const num = parseInt(str, 10);

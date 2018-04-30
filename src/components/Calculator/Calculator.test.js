@@ -147,7 +147,7 @@ const TEST_STRING = 'testing';
 it('sends calculations to the server and displays the result', (done) => {
 	// put original "fetch" aside to use a fetch-mock
 	const _fetch = global.fetch;
-
+	
 	global.fetch = jest.fn().mockImplementation(() => {
 		return new Promise((resolve, reject) => {
 			resolve({
@@ -158,24 +158,36 @@ it('sends calculations to the server and displays the result', (done) => {
 			});
 		});
 	});
-
+	
 	const calc = mount(<Calculator />);
-
+	
 	// numbers and operation don't matter (using a static mock)
 	calc.setState({
 		firstNum: '4',
 		operation: '+',
 		secondNum: '5',
 	});
-
+	
 	const equalBtn = calc.find('.Button.calculate').at(0);
 	equalBtn.simulate('click');
 	
 	setTimeout(() => {
 		// restore original fetch
 		global.fetch = _fetch;
-
+		
 		expect(calc.state('result')).toEqual(TEST_STRING);
 		done();
 	}, 1);
+});
+
+it('can be extended with more math operations', () => {
+	const newMathOperation = {
+		name: 'power',
+		sign: '^',
+	};
+
+	const calc = mount(<Calculator mathOps={[newMathOperation]} />);
+	const ops = calc.find('.Button.operation');
+
+	expect(ops.length).toEqual(5); // 4 basic ops + 1
 });

@@ -22,3 +22,13 @@
     display: flex;
     justify-content: space-between;
 }
+
+.Calculator .ops-container {
+    flex-direction: column;
+}
+
+.Calculator .ops-row {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
