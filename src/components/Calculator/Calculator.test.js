@@ -22,31 +22,31 @@ it('has a numpad section with 10 buttons (0-9)', () => {
 
 it('displays the digit you click', () => {
 	const calc = mount(<Calculator />);
-	
+
 	// first button (top left) is the digit 7
 	const sevenBtn = calc.find('.Button.digit').first();
-	
+
 	sevenBtn.simulate('click');
-	
+
 	const display = calc.find('.Display').at(0);
-	
+
 	expect(display.text()).toEqual('7');
 });
 
 it('displays a multi-digit number as you click', () => {
 	const calc = mount(<Calculator />);
-	
+
 	// first button (top left) is the digit 7
 	const sevenBtn = calc.find('.Button.digit').first();
-	
+
 	// last button is the digit 0
 	const zeroBtn = calc.find('.Button.digit').last();
-	
+
 	sevenBtn.simulate('click');
 	zeroBtn.simulate('click');
-	
+
 	const display = calc.find('.Display').at(0);
-	
+
 	expect(display.text()).toEqual('70');
 });
 
@@ -55,51 +55,51 @@ it('ignores zero as first digit', () => {
 
 	const sevenBtn = calc.find('.Button.digit').first();
 	const zeroBtn  = calc.find('.Button.digit').last();
-	
+
 	zeroBtn.simulate('click');  // 0
 	sevenBtn.simulate('click'); // 7
 	zeroBtn.simulate('click');  // 0
-	
+
 	const display = calc.find('.Display').at(0);
-	
+
 	expect(display.text()).toEqual('70');
 });
 
 function runNTimes (times, fn) {
 	for (let index = 0; index < times; index++) {
-		fn();	
+		fn();
 	}
 }
 
 it('limits the number to 10 digits', () => {
 	const calc = mount(<Calculator />);
-	
+
 	const sevenBtn = calc.find('.Button.digit').first();
-	
+
 	runNTimes(12, () => {
 		// runs 12 times
 		sevenBtn.simulate('click');
 	});
-	
+
 	const display = calc.find('.Display').at(0);
-	
+
 	expect(display.text().length).toEqual(10);
 });
 
 it('supports keyboard numpad usage', () => {
 	const calc = mount(<Calculator />);
 
-	calc.simulate('keyPress', { 
+	calc.simulate('keyPress', {
 		key: '2',
 		which: 50,
 	});
-	calc.simulate('keyPress', { 
+	calc.simulate('keyPress', {
 		key: '8',
 		which: 56,
 	});
 
 	const display = calc.find('.Display').at(0);
-	
+
 	expect(display.text()).toEqual('28');
 });
 
@@ -122,15 +122,15 @@ it('has 4 basic math operations (+, -, *, /)', () => {
 
 it('displays the full calculation', () => {
 	const calc = mount(<Calculator />);
-	
+
 	calc.setState({
 		firstNum: '24',
 		operation: '+',
 		secondNum: '35',
 	});
-	
+
 	const display = calc.find('.Display').at(0);
-	
+
 	expect(display.text()).toEqual('24+35');
 });
 
@@ -140,4 +140,42 @@ it('has an "equal" button (=)', () => {
 	const equalBtn = calc.find('.Button.calculate');
 
 	expect(equalBtn.length).toEqual(1);
+});
+
+const TEST_STRING = 'testing';
+
+it('sends calculations to the server and displays the result', (done) => {
+	// put original "fetch" aside to use a fetch-mock
+	const _fetch = global.fetch;
+
+	global.fetch = jest.fn().mockImplementation(() => {
+		return new Promise((resolve, reject) => {
+			resolve({
+				ok: true,
+				text: function () {
+					return TEST_STRING;
+				}
+			});
+		});
+	});
+
+	const calc = mount(<Calculator />);
+
+	// numbers and operation don't matter (using a static mock)
+	calc.setState({
+		firstNum: '4',
+		operation: '+',
+		secondNum: '5',
+	});
+
+	const equalBtn = calc.find('.Button.calculate').at(0);
+	equalBtn.simulate('click');
+	
+	setTimeout(() => {
+		// restore original fetch
+		global.fetch = _fetch;
+
+		expect(calc.state('result')).toEqual(TEST_STRING);
+		done();
+	}, 1);
 });

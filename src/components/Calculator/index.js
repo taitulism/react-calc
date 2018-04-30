@@ -11,6 +11,7 @@ class Calculator extends Component {
             firstNum: '',
             operation: '',
             secondNum: '',
+            result: '',
         };
 
         this.handleNumberInput = this.handleNumberInput.bind(this);
@@ -37,11 +38,13 @@ class Calculator extends Component {
         if (!this.state.operation) {
             this.setState({
                 firstNum: newNumber,
+                result: '',
             });
         }
         else {
             this.setState({
                 secondNum: newNumber,
+                result: '',
             });
         }
     }
@@ -67,11 +70,43 @@ class Calculator extends Component {
     }
 
     calculate () {
-
+        const {firstNum, operation, secondNum} = this.state;
+        
+        return fetch(`${Calculator.SERVER_URL}/${operation}/${firstNum}/${secondNum}`).then((response) => {
+            if (response.ok) {
+                return response.text();
+            } 
+            else {
+                this.setState({
+                    firstNum: '',
+                    operation: '',
+                    secondNum: '',
+                    result: 'ERR'
+                });
+                
+                console.log(response.statusText);
+            }
+        })
+        .then((res) => {
+            this.setState({
+                firstNum: '',
+                operation: '',
+                secondNum: '',
+                result: res
+            });            
+        })
+        .catch((err) => {
+            throw new Error(err);
+        });
     }
 
     getDisplayValue () {
-        const {firstNum, operation, secondNum} = this.state;
+        const {firstNum, operation, secondNum, result} = this.state;
+
+        if (result) {
+            return result;
+        }
+
         const display = firstNum + operation + secondNum;
 
         if (display === '') {
@@ -126,6 +161,7 @@ class Calculator extends Component {
 
 Calculator.MAX_DIGITS = 10;
 Calculator.BASIC_OPS  = ['+', '-', '*', '/'];
+Calculator.SERVER_URL = 'http://localhost:3001';
 
 function isNotANumber (str) {
     const num = parseInt(str, 10);
