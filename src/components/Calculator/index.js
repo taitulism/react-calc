@@ -72,6 +72,9 @@ class Calculator extends Component {
 
     calculate () {
         const {firstNum, operation, secondNum} = this.state;
+
+        if (!firstNum || !secondNum) return;
+
         const opName = Calculator.OP_API_NAME[operation];
         
         return fetch(`${Calculator.SERVER_URL}/${opName}/${firstNum}/${secondNum}`).then((response) => {
