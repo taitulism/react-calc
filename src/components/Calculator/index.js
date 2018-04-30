@@ -65,6 +65,8 @@ class Calculator extends Component {
     }
 
     handleOperation (op) {
+        if (!this.state.firstNum) return;
+        
         this.setState({
             operation: op,
         });
